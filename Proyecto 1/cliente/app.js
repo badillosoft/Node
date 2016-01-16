@@ -55,19 +55,26 @@ function send() {
     
     console.log("Se ha enviado el mensaje");
     
-    insertMessage(txt_message.value);
+    //insertMessage(txt_message.value);
     
     txt_message.value = "";
 }
 
 // 3. Inserta un mensaje en el HTML
-function insertMessage(message) {
+function insertMessage(data) {
     var messages_box = document.getElementById('messages');
     
     // 3.1 Creamos un elemento HTML con el mensaje
     var div = document.createElement("div");
     
-    div.innerHTML = "<strong>" + message + "</strong>";
+    // 3.2 Recuperamos el JSON, lo parseamos
+    // y mostramos sus atributos con estilo
+    var message = JSON.parse(data);
+    
+    div.style.color = message.color;
+    
+    div.innerHTML = "<strong>" + message.usuario + "</strong>: " +
+        message.contenido;
     
     messages_box.appendChild(div);
 }
