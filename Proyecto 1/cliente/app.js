@@ -1,10 +1,13 @@
 // 0. Creamos una variable global para guardar la conexión al servidor
 var ws = null;
 var color = "#000000";
+var name = "anónimo";
 
 // 1. Cuando carga la página
 window.onload = function () {
     console.info('Se ha cargado la página');
+    
+    name = prompt("Dame tu nombre de usuario:");
     
     // 1.2 Nos conectamos al servidor
     ws = new WebSocket("ws://localhost:8083", "echo-protocol");
@@ -56,7 +59,7 @@ function send() {
     // 2.3 Enriquesemos el mensaje en un objeto
     // para posteriormente convertirlo a JSON y enviarlo
     var message = {
-        usuario: "anónimo",
+        usuario: name,
         contenido: txt_message.value,
         color: color
     };
