@@ -1,21 +1,17 @@
-var UserAdmin = require("./UserAdmin");
+var http = require('http');
+var express = require("express");
 
-UserAdmin.insert({
-    Nombre: "pepe",
-    Correo: "pepe@gmail.com",
-    Clave: "pepetoro"
+var app = express();
+
+app.get('/', function (req, res) {
+    res.send("Hola mundo");
 });
 
-UserAdmin.print();
+app.get('/blog', function (req, res) {
+    res.send("Bienvenido al blog");
+});
 
-console.log( UserAdmin.login("pepe", "pepetoro") );
-
-console.log( UserAdmin.get("pepe@gmail.co") );
-
-var pepe = UserAdmin.get("pepe@gmail.com");
-
-pepe.Clave = "jaimito";
-
-UserAdmin.update(pepe);
-
-UserAdmin.print();
+http.createServer(app).listen(3000, function () {
+    console.log('El servidor se ha iniciado en: ' +
+        'http://localhost:3000');
+});
