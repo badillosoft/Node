@@ -28,6 +28,7 @@ window.onload = function () {
     ws.onmessage = function (message) {
         console.info('Se ha recibido un mensaje');
         console.log(message.data);
+        insertMessage(message.data);
     };
 };
 
@@ -55,6 +56,7 @@ function send() {
 function insertMessage(message) {
     var messages_box = document.getElementById('messages');
     
+    // 3.1 Creamos un elemento HTML con el mensaje
     var div = document.createElement("div");
     
     div.innerHTML = "<strong>" + message + "</strong>";
