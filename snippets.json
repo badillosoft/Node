@@ -1,0 +1,52 @@
+{
+/*
+	 // Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and 
+	 // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	 // $1, $2 for tab stops, ${id} and ${id:label} and ${1:label} for variables. Variables with the same id are connected.
+	 // Example:
+	 "Print to console": {
+		"prefix": "log",
+		"body": [
+			"console.log('$1');",
+			"$2"
+		],
+		"description": "Log output to console"
+	}
+*/
+	"Print to console": {
+		"prefix": "log",
+		"body": [
+			"console.log('$1');"
+		],
+		"description": "Log output to console"
+	},
+	"Print error to console": {
+		"prefix": "error",
+		"body": [
+			"console.error('$1');"
+		],
+		"description": "Log error output to console"
+	},
+	"Get control": {
+		"prefix": "getid",
+		"body": [
+			"var ${1:name} = document.getElementById('$1');"
+		],
+		"description": "Obtiene un control HTML"
+	},
+	"Var declaration": {
+		"prefix": "var",
+		"body": [
+			"var ${1:name} = ${2:null};"
+		],
+		"description": "Declara una variable"
+	},
+	"Window OnLoad method": {
+		"prefix": "onload",
+		"body": [
+			"window.onload = function () {",
+			"	$0",
+			"};"
+		]
+	}
+}

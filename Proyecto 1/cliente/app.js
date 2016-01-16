@@ -1,5 +1,6 @@
 // 0. Creamos una variable global para guardar la conexión al servidor
 var ws = null;
+var color = "#000000";
 
 // 1. Cuando carga la página
 window.onload = function () {
@@ -30,6 +31,15 @@ window.onload = function () {
         console.log(message.data);
         insertMessage(message.data);
     };
+    
+    // 1.7 Cargo el control de jscolor
+    // recupero el color, cada que su valor cambie
+    // actualizo la variable global de color
+    var txt_color = document.getElementById('txt_color');
+    
+    txt_color.onchange = function () {
+        color = "#" + txt_color.value;
+    };
 };
 
 // 2. Cuando pulsamos el botón enviar
@@ -48,7 +58,7 @@ function send() {
     var message = {
         usuario: "anónimo",
         contenido: txt_message.value,
-        color: "#FF00FF"
+        color: color
     };
     
     ws.send(JSON.stringify(message));
