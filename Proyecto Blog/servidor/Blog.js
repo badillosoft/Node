@@ -63,5 +63,18 @@ module.exports = {
         }
         
         return null;
+    },
+    getAll: function (n) {
+        if (n <= 0) {
+            return [];
+        }
+        
+        var nEntradas = [];
+        
+        for (var i = 0; i < Math.min(n, entradas.length); i++) {
+            nEntradas.push(entradas[entradas.length - 1 - i]);
+        }
+        
+        return nEntradas;
     }
 };
