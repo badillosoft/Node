@@ -39,10 +39,10 @@ wsServer.on('request', function(request) {
         // 5.3.1 Recorremos todas las conexiones
         connections.forEach(function (conn) {
             // 5.3.1.1 Si es el usuario enviamos un mensaje
-            if (connection == conn) {
+            /*if (connection == conn) {
                 conn.sendUTF("Tu mensaje fué propagado");
                 return;
-            }
+            }*/
             
             // 5.3.1.2 Si es otro le enviamos el mensjae
             conn.sendUTF(message.utf8Data);

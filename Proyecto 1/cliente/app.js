@@ -43,7 +43,15 @@ function send() {
     // 2.2 Recuperamos el texto de la caja y lo enviamos
     var txt_message = document.getElementById("txt_message");
     
-    ws.send(txt_message.value);
+    // 2.3 Enriquesemos el mensaje en un objeto
+    // para posteriormente convertirlo a JSON y enviarlo
+    var message = {
+        usuario: "anónimo",
+        contenido: txt_message.value,
+        color: "#FF00FF"
+    };
+    
+    ws.send(JSON.stringify(message));
     
     console.log("Se ha enviado el mensaje");
     
