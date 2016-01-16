@@ -1,0 +1,6 @@
+Documentacion
+
+~~~~js
+function saludar() {
+}
+~~~
