@@ -10,7 +10,7 @@ window.onload = function () {
     name = prompt("Dame tu nombre de usuario:");
     
     // 1.2 Nos conectamos al servidor
-    ws = new WebSocket("ws://localhost:8083", "echo-protocol");
+    ws = new WebSocket("ws://10.0.16.24:8083", "echo-protocol");
     
     // 1.3 Cuando el servidor se conecta
     ws.onopen = function () {
@@ -42,6 +42,15 @@ window.onload = function () {
     
     txt_color.onchange = function () {
         color = "#" + txt_color.value;
+    };
+    
+    // 1.8 Hacemos que se envíe el mensaje al pulsar enter
+    var txt_message = document.getElementById('txt_message');
+    
+    txt_message.onkeydown = function (e) {
+        if (e.keyCode == 13 && txt_message.value != "") {
+            send();
+        }
     };
 };
 
@@ -90,4 +99,6 @@ function insertMessage(data) {
         message.contenido;
     
     messages_box.appendChild(div);
+    
+    messages_box.scrollTop = messages_box.scrollHeight;
 }
