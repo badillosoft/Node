@@ -54,7 +54,12 @@ app.get('/blog/edit', function (req, res) {
 });
 
 app.post('/blog/edit', function (req, res) {
-	Blog.update(req.body);
+	try {
+		Blog.update(req.body);
+	} catch (e) {
+		console.log(e);
+	}
+	
 	res.send('Entrada agregada');
 });
 
