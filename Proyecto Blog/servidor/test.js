@@ -13,26 +13,15 @@ app.set('views', __dirname + '/views');
 
 app.use(bodyParser());
 
-Blog.insert({
-    Titulo: "Mi primer post 😊",
-    Contenido: "Lo que sea",
-    Usuario: "badillo.soft@hotmail.com",
-    Fecha: "2016-01-16T13:49:00Z"
-});
-
-Blog.insert({
-    Titulo: "Mi segundo post 😊",
-    Contenido: "Lo que sea 2",
-    Usuario: "badillo.soft@hotmail.com",
-    Fecha: "2016-01-16T13:55:00Z"
-});
-
 app.get('/', function (req, res) {
     res.send("Hola mundo");
 });
 
 app.get('/blog', function (req, res) {
-    res.render('blog', { Entradas: Blog.getAll(10)} );
+	Blog.getAll(10, function (blogs) {
+		console.log(blogs);
+		res.render('blog', { Entradas: blogs} );
+	});
 });
 
 app.get('/blog/new', function (req, res) {
@@ -47,20 +36,18 @@ app.post('/blog/new', function (req, res) {
 app.get('/blog/edit', function (req, res) {
 	var codigo = req.query['code'];
 	
-	res.render('blog_form', {
-		Titulo: "Editar Entrada", 
-		Entrada: Blog.get(codigo) 
+	Blog.get(codigo, function (blog) {
+		res.render('blog_form', {
+			Titulo: "Editar Entrada", 
+			Entrada: blog  
+		});
 	});
 });
 
 app.post('/blog/edit', function (req, res) {
-	try {
-		Blog.update(req.body);
-	} catch (e) {
-		console.log(e);
-	}
-	
-	res.send('Entrada agregada');
+	Blog.update(req.body, function (valid) {
+		res.send('Se actualizó? ' + valid);
+	});
 });
 
 http.createServer(app).listen(3000, function () {

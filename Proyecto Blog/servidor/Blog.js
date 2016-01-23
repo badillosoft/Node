@@ -16,65 +16,80 @@ Comentario:
     
 */
 
-var UAdmin = require('./UserAdmin'); 
+var mongoose = require('mongoose');
+var UAdmin = require('./UserAdmin');
 
-var entradas = [];
+mongoose.connect("mongodb://localhost/BlogApp");
+
+var db = mongoose.connection;
+
+var connected = false;
+
+db.on('error', function () {
+	console.log('No pudo conectar con la base de datos');
+});
+
+db.once('open', function () {
+	console.log('Se ha conectado con la base de datos');
+	connected = true;
+}); 
+
+var BlogSchema = new mongoose.Schema({
+	Titulo: String,
+	Contenido: String,
+	Usuario: String,
+	Fecha: String,
+	Codigo: String,
+});
+
+var Blog = mongoose.model('Blog', BlogSchema);
 
 module.exports = {
     invalid: function (entrada) {
         return !(entrada.Titulo || entrada.Contenido ||
             entrada.Fecha || entrada.Usuario);
     },
-    insert: function (entrada) {
+    insert: function (entrada, callback) {
         if (this.invalid(entrada)) {
             console.log('La entrada es inválida');
-            return false;
+			callback(false);
+            return;
         }
         
         entrada.Codigo = entrada.Codigo || this.getRandomCode();
         entrada.Comentarios = [];
-        
-        entradas.push(entrada);
-        
-        return true;
+		
+		var blog = new Blog(entrada);
+		blog.save();
     },
     insertComment: function (codigoEntrada, comentario) {
         var entrada = this.get(codigoEntrada);
         
         if (entrada == null) {
             console.log('La entrada no existe :(');
-            return false;
+            return;
         }
         
         entrada.Comentarios.push(comentario);
-        
-        return true;
     },
     getRandomCode: function () {
         return Math.random().toString(36)
             .replace(/[^a-z]+/g, '').substr(0, 5)
             .toUpperCase();
     },
-    get: function (codigo) {
-        for (var i = 0; i < entradas.length; i++) {
-            if (entradas[i].Codigo === codigo) {
-                return entradas[i];
-            }
-        }
-        
-        return null;
+    get: function (codigo, callback) {
+        Blog.findOne({Codigo: codigo}, function (err, blog) {
+			callback(blog);
+		});
     },
-    getAll: function (n) {
-        if (n <= 0) {
-            return [];
-        }
-        
-        var nEntradas = [];
-        
-        for (var i = 0; i < Math.min(n, entradas.length); i++) {
-            nEntradas.push(entradas[entradas.length - 1 - i]);
-        }
-        
-        return nEntradas;
+    getAll: function (n, callback) {
+        Blog.find({}, function (err, blog) {
+			callback(blog);
+		});
+    },
+	update: function (entrada, callback) {
+        Blog.update({Codigo: entrada.Codigo}, entrada, function (err, blog) {
+			callback(!!blog && !err);
+		});
     }
 };
