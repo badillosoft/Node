@@ -4,19 +4,11 @@ UserAdmin.insert({
     Nombre: "pepe",
     Correo: "pepe@gmail.com",
     Clave: "pepetoro"
+}, function (success) {
+	console.log('Se agregó al usuario? ' + success);
 });
 
-UserAdmin.print();
-
-console.log( UserAdmin.login("pepe", "pepetoro") );
-
-console.log( UserAdmin.get("pepe@gmail.co") );
-
-var pepe = UserAdmin.get("pepe@gmail.com");
-
-pepe.Clave = "jaimito";
-
-UserAdmin.update(pepe);
-
-UserAdmin.print();
+UserAdmin.get("pepe@gmail.com", function (pepe) {
+	console.log(pepe);
+});
 

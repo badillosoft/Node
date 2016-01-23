@@ -13,18 +13,18 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/BlogApp');
 
-mongoose.on('error', function (err) {
+var db = mongoose.connection;
+
+db.on('error', function (err) {
 	console.log(err);
 });
 
 var connected = false;
 
-mongoose.once('open', function () {
+db.once('open', function () {
 	console.log('Se ha conectado con la base de datos');
 	connected = true;
 });
-
-var db = mongoose.connection;
 
 var UsuariosSchema = new mongoose.Schema({
 	Correo: String,
@@ -39,27 +39,26 @@ module.exports = {
         return !(usuario.Nombre ||
             usuario.Correo || usuario.Clave);
     },
-    insert: function (usuario) {
+    insert: function (usuario, callback) {
         if (this.invalid(usuario)) {
             console.log('El usuario no es válido');
+			callback(false);
             return false;
         }
 		
         Usuarios.findOne(
 			{ Correo: usuario.Correo },
-			function(err, usuario) {
-				if (err || usuario) {
+			function(err, u) {
+				if (err || u) {
 					console.log('El usuario ya existe');
+					callback(false);
 					return;
 				}
 				
-				Usuarios.insertOne(usuario, function (err2) {
-					if (err) {
-						console.log('El usuario no pudo insertarse');
-					} else {
-						console.log('El usuario fue insertado');
-					}
-				});
+				var user = new Usuarios(usuario);
+				
+				user.save();
+				callback(true);
 			}
 		);
         
