@@ -1,8 +1,11 @@
 var http = require('http');
 var express = require('express');
+var bodyParser = require('body-parser');
 var Blog = require('./Blog');
 
 var app = express();
+
+app.use(bodyParser());
 
 Blog.insert({
     Titulo: "Mi primer post 😊",
@@ -13,9 +16,9 @@ Blog.insert({
 
 Blog.insert({
     Titulo: "Mi segundo post 😊",
-    Contenido: "Lo que sea",
+    Contenido: "Lo que sea 2",
     Usuario: "badillo.soft@hotmail.com",
-    Fecha: "2016-01-16T13:49:00Z"
+    Fecha: "2016-01-16T13:55:00Z"
 });
 
 app.get('/', function (req, res) {
@@ -38,6 +41,26 @@ app.get('/blog', function (req, res) {
     }
     
     res.send(txt);
+});
+
+app.get('/blog/new', function (req, res) {
+	var form = '<form action="/blog/new" method="post">';
+	
+	form += "<input name='Titulo' type='text' placeholder='Título'><br>";
+	form += "<textarea name='Contenido'></textarea><br>";
+	form += "<input name='Usuario' type='text' placeholder='Usuario'><br>";
+	form += "<input name='Fecha' type='date' placeholder='Fecha'><br>";
+	form += "<input type='submit' value='enviar'><br>";
+	
+	form += "</form>";
+	
+	res.send(form);
+});
+
+app.post('/blog/new', function (req, res) {
+	console.log(req.body);
+	Blog.insert(req.body);
+	res.send('Entrada agregada');
 });
 
 http.createServer(app).listen(3000, function () {
