@@ -29,6 +29,7 @@
 		<h1>{{Titulo}}</h1>
 		
 		<form action="{{Url}}" method="post">
+			<input name="Codigo" type='hidden' value="{{Entrada.Codigo}}">
 			<input class="texto" name='Titulo' type='text'
 				placeholder='Título' value="{{Entrada.Titulo}}">
 			<br>
