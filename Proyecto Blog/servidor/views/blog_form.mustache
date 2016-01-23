@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{Titulo}}</title>
+		
+		<style>
+			.texto {
+				width: 100%;
+			}
+			
+			form {
+				margin-right: auto;
+				margin-left: auto;
+				max-width: 400px;
+			}
+			
+			textarea {
+				width: 100%;
+				max-width: 100%;
+				min-height: 300px;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>{{Titulo}}</h1>
+		
+		<form action="{{Url}}" method="post">
+			<input class="texto" name='Titulo' type='text'
+				placeholder='Título' value="{{Entrada.Titulo}}">
+			<br>
+			<textarea name='Contenido'>{{Entrada.Contenido}}</textarea>
+			<br>
+			<input class="texto" name='Usuario' type='text'
+				placeholder='Usuario' value="{{Entrada.Usuario}}">
+			<br>
+			<input class="texto" name='Fecha' type='datetime'
+				placeholder='Fecha' value="{{Entrada.Fecha}}">
+			<br>
+			<input class="boton" type='submit' value='enviar'>
+		</form>
+	</body>
+</html>	

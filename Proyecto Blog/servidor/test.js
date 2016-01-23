@@ -1,9 +1,15 @@
 var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
+var mustacheExpress = require('mustache-express');
 var Blog = require('./Blog');
 
 var app = express();
+
+app.engine('mustache', mustacheExpress());
+
+app.set('view engine', 'mustache');
+app.set('views', __dirname + '/views');
 
 app.use(bodyParser());
 
@@ -26,40 +32,31 @@ app.get('/', function (req, res) {
 });
 
 app.get('/blog', function (req, res) {
-    var txt = "<h1>Bienvenido al Blog 😁</h1><br><br>";
-    
-    var entradas = Blog.getAll(10);
-    
-    for (var i = 0; i < entradas.length; i += 1) {
-        txt += "<div>" +
-            "<h2>" + entradas[i].Titulo + "</h2>" + 
-            "<p>" + entradas[i].Contenido + "</p>" + 
-            "<p>" + entradas[i].Usuario + " | " +
-            entradas[i].Fecha + " | " + entradas[i].Codigo + 
-            "</p>" + 
-            "</div>";
-    }
-    
-    res.send(txt);
+    res.render('blog', { Entradas: Blog.getAll(10)} );
 });
 
 app.get('/blog/new', function (req, res) {
-	var form = '<form action="/blog/new" method="post">';
-	
-	form += "<input name='Titulo' type='text' placeholder='Título'><br>";
-	form += "<textarea name='Contenido'></textarea><br>";
-	form += "<input name='Usuario' type='text' placeholder='Usuario'><br>";
-	form += "<input name='Fecha' type='date' placeholder='Fecha'><br>";
-	form += "<input type='submit' value='enviar'><br>";
-	
-	form += "</form>";
-	
-	res.send(form);
+	res.render('blog_form', {Titulo: "Nuevo Blog"});
 });
 
 app.post('/blog/new', function (req, res) {
-	console.log(req.body);
 	Blog.insert(req.body);
+	res.send('Entrada agregada');
+});
+
+app.get('/blog/edit', function (req, res) {
+	var codigo = req.query['code'];
+	
+	res.render('blog_form', {
+		Titulo: "Editar Entrada", 
+		Entrada: Blog.get(codigo) 
+	});
+});
+
+app.post('/blog/edit', function (req, res) {
+	
+	
+	Blog.update(req.body);
 	res.send('Entrada agregada');
 });
 

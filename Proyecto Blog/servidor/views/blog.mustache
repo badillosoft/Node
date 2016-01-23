@@ -1,0 +1,10 @@
+<h1>Bienvenido al Blog</h1>
+
+{{#Entradas}}
+<h2>{{Titulo}}</h2>
+<div>{{Contenido}}</div>
+<div>
+	<a href="mailto:{{Usuario}}">{{Usuario}}</a> | {{Fecha}} |
+	<a href="/blog/edit?code={{Codigo}}">editar</a>
+</div>
+{{/Entradas}}
