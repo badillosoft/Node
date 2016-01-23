@@ -23,15 +23,18 @@ mongoose.connect("mongodb://localhost/BlogApp");
 
 var db = mongoose.connection;
 
-var connected = false;
+var settings = {
+	connected: false
+};
 
 db.on('error', function () {
 	console.log('No pudo conectar con la base de datos');
+	settings.connected = false;
 });
 
 db.once('open', function () {
 	console.log('Se ha conectado con la base de datos');
-	connected = true;
+	settings.connected = true;
 }); 
 
 var BlogSchema = new mongoose.Schema({
@@ -45,6 +48,7 @@ var BlogSchema = new mongoose.Schema({
 var Blog = mongoose.model('Blog', BlogSchema);
 
 module.exports = {
+	settings: settings,
     invalid: function (entrada) {
         return !(entrada.Titulo || entrada.Contenido ||
             entrada.Fecha || entrada.Usuario);

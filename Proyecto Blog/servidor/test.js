@@ -13,6 +13,17 @@ app.set('views', __dirname + '/views');
 
 app.use(bodyParser());
 
+app.all("*", function (req, res, next) {
+	console.log(Blog.settings);
+	
+	if (!Blog.settings.connected) {
+		res.send("Error DDDD:");
+		return;
+	}
+	
+	next();
+});
+
 app.get('/', function (req, res) {
     res.send("Hola mundo");
 });
