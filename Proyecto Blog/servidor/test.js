@@ -3,6 +3,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mustacheExpress = require('mustache-express');
 var Blog = require('./Blog');
+var routes = require('./routes');
 
 var app = express();
 
@@ -60,6 +61,10 @@ app.post('/blog/edit', function (req, res) {
 		res.send('Se actualizó? ' + valid);
 	});
 });
+
+for (var route in routes) {
+	app.get(route, routes[route]);
+}
 
 http.createServer(app).listen(3000, function () {
     console.log('El servidor se ha iniciado en: ' +
