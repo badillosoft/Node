@@ -9,23 +9,36 @@ var self = {
 	routes: {
 		get: {
 			'/report/:type/:user': function (req, res) {
-				self.db.collection(req.params.type).find({
-					usuario: req.params.user, fecha: {$gte: '2015-01-01'}
-				}).toArray(function (err, data) {
-					console.log(data);
-				});
+				var query = { usuario: req.params.user };
 				
-				res.render('report', {
-					titles: ['fecha', 'monto', 'descripción'],
-					data: [
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal'],
-						['2015-01-23', '500', 'Se vendió tal']
-					]
+				if (req.query.fecha) {
+					query['fecha'] = {$gte: req.query.fecha};
+				}
+				
+				self.db.collection(req.params.type).find(query, {_id: 0, usuario: 0})
+				.toArray(function (err, data) {
+					var arr = [];//, titles = [];
+					
+					/*for (var t in data[0]) {
+						titles.push(t);
+					}
+					
+					for (var venta of data) {
+						var temp = [];
+						for (var t in venta) {
+							temp.push(venta[t]);
+						}
+						arr.push(temp);
+					}*/
+					
+					for (var venta of data) {
+						arr.push([venta.fecha, venta.monto, venta.desc]);
+					}
+					
+					res.render('report', {
+						titles: ['Fecha', 'Monto', 'Descripcion'],
+						data: arr
+					});
 				});
 			}
 		}
