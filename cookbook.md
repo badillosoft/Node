@@ -162,6 +162,8 @@ http.createServer(app).listen(8080, function () {
 
 ## 5. Crear un servidor basado en WebSockets
 
+Documentación: [https://github.com/theturtle32/WebSocket-Node](https://github.com/theturtle32/WebSocket-Node)
+
 > __javascript__ - Crear un servidor WebSocket
 
 ~~~js
