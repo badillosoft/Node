@@ -160,7 +160,7 @@ http.createServer(app).listen(8080, function () {
 });
 ~~~
 
-## Crear un servidor basado en WebSockets
+## 5. Crear un servidor basado en WebSockets
 
 > __javascript__ - Crear un servidor WebSocket
 
@@ -192,3 +192,91 @@ wsServer.on('request', function(request) {
 });
 ~~~
 
+## 6. Crear eventos en Node.JS
+
+Los eventos son funciónes asíncronas que se ejecutan cuando un "evento"
+es emitido, es decir, que los eventos se componen de un Emisor que emite
+los eventos (llama a las funciones suscritas) y también tenemos
+funciones que se suscriben al evento.
+
+Documentación: [https://nodejs.org/api/events.html](https://nodejs.org/api/events.html)
+
+> __javascript__ - Crear un emisor de eventos y suscriptores
+
+~~~js
+var EventEmitter = require('events').EventEmitter;
+
+var emitter = new EventEmitter();
+
+emitter.on('esPrimo', function (p) {
+	console.log('El número ' + p + ' es primo');
+});
+
+var criba = [];
+
+for (var i = 0; i <= 100; i += 1) {
+	criba.push(true);
+}
+
+for (var n = 2; n <= 100; n += 1) {
+	if (criba[n]) {
+		for (var k = 2 * n; k <= 100; k += n) {
+			criba[k] = false;
+		}
+		
+		emitter.emit('esPrimo', n);
+	}
+}
+~~~
+
+## 7. Crear Buffers
+
+Los Buffers son arreglos de datos estructurados a trozos
+esto permite tener gran cantidad de datos sin tener que leerlos
+o acceder a ellos uno por uno como un array tradicional, además
+permite conversiones de datos sobre strigs y bytes.
+
+Documentación: [https://nodejs.org/api/buffer.html](https://nodejs.org/api/buffer.html)
+
+> __javascript__ - Crear un Buffer de datos
+
+~~~js
+var buff = new Buffer(10);
+
+buff.write('Hola ', 'utf8');
+
+console.log(buff.toString('utf8'));
+
+buff.write('mundo', 5, 'utf8');
+
+console.log(buff.toString('utf8'));
+~~~
+
+## 8. Crear Clusters para hacer programas en paralelo
+
+Documentación: [https://nodejs.org/api/cluster.html](https://nodejs.org/api/cluster.html)
+
+> __javascript__ - Clusters
+
+~~~js
+var cluster = require('cluster');
+var nCPUs = require('os').cpus().length;
+
+if (cluster.isMaster) {
+	for (var i = 1; i <= 2 * nCPUs; i += 1) {
+		var worker = cluster.fork();
+		
+		worker.on('message', function (data) {
+			console.log(data);
+		});
+		
+		worker.send(i);
+	}
+} else {
+	process.on('message', function (id) {
+		// TODO: Programa
+		
+		process.send('Hola soy el proceso: ' + id);
+	});
+}
+~~~
