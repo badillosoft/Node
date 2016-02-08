@@ -1,0 +1,26 @@
+{
+  "name": "Usuario",
+  "base": "PersistedModel",
+  "strict": false,
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Clave": {
+      "type": "string",
+      "required": true
+    },
+    "Nombre": {
+      "type": "string",
+      "id": true,
+      "required": true,
+      "index": true,
+      "comments": "Es el nombre del usuario"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

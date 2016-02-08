@@ -1,0 +1,18 @@
+{
+  "ids": {
+    "ManagerHost": 2,
+    "LoadBalancer": 6
+  },
+  "models": {
+    "ManagerHost": {
+      "19a4724d-3c04-439f-8c53-bba5d7e8619b": "{\"id\":\"19a4724d-3c04-439f-8c53-bba5d7e8619b\",\"host\":\"127.0.0.1\",\"port\":3000,\"actions\":[\"delete\",\"edit\"],\"protocol\":\"http\",\"created\":1454814063164,\"error\":{\"message\":\"connect ECONNREFUSED 127.0.0.1:3000\"},\"errorType\":\"connection\",\"app\":null,\"processes\":null,\"$$hashKey\":\"object:1639\",\"isHostProblem\":true}"
+    },
+    "LoadBalancer": {
+      "1": "{\"protocol\":\"http\",\"host\":\"127.0.0.0\",\"port\":3000,\"id\":1}",
+      "2": "{\"protocol\":\"http\",\"host\":\"127.0.0.0\",\"port\":3000,\"id\":2}",
+      "3": "{\"protocol\":\"http\",\"host\":\"127.0.0.0\",\"port\":3000,\"id\":3}",
+      "4": "{\"protocol\":\"http\",\"host\":\"127.0.0.0\",\"port\":3000,\"id\":4}",
+      "5": "{\"protocol\":\"http\",\"host\":\"127.0.0.0\",\"port\":3000,\"id\":5}"
+    }
+  }
+}
